@@ -14,8 +14,8 @@ import {
 } from "lucide-react";
 import { RiGeminiFill } from "react-icons/ri";
 import Chart from "react-apexcharts";
-import NavButton from "./components/NavButton";
-import AiPopup from "./components/AiPopup";
+import NavButton from "../components/NavButton";
+import AiPopup from "../components/AiPopup";
 
 // Candlestick Chart Component
 
@@ -59,37 +59,43 @@ const CandleChart = ({ stockData }) => {
   );
 };
 
-// Sidebar Component
+import { useRouter } from "next/navigation";
+
 const Sidebar = ({ activeTab, setActiveTab }) => {
+  const router = useRouter();
+
   const navItems = [
-    { id: "dashboard", icon: LayoutDashboard, label: "Dashboard" },
-    { id: "users", icon: UserRoundCog, label: "User Management" },
-    { id: "transfers", icon: ArrowRightLeft, label: "Transfers" },
-    { id: "notifications", icon: Bell, label: "Notifications" },
-    { id: "logout", icon: LogOut, label: "Logout" },
+    { id: "dashboard", icon: LayoutDashboard, label: "Dashboard", link: "/dashboard" },
+    { id: "users", icon: UserRoundCog, label: "User Management", link: "/users" },
+    { id: "transfers", icon: ArrowRightLeft, label: "Transfers", link: "/transfers" },
+    { id: "notifications", icon: Bell, label: "Notifications", link: "/notifications" },
+    { id: "logout", icon: LogOut, label: "Logout", link: "/" },
   ];
 
   return (
     <div className="h-screen w-20 bg-gray-950 flex flex-col items-center py-6 border-r border-gray-800">
-      {/* Logo */}
       <div className="w-10 h-10 bg-green-400 rounded-lg flex items-center justify-center mb-8">
         <BarChart3 className="w-6 h-6 text-white" />
       </div>
 
-      {/* Nav Items */}
-      <nav className="flex flex-col gap-3 relative flex-1">
+      <nav className="flex flex-col gap-3 flex-1">
         {navItems.map((item) => (
-          <NavButton
+          <button
             key={item.id}
-            icon={item.icon}
-            label={item.label}
-            isActive={activeTab === item.id}
-            onClick={() => setActiveTab(item.id)}
-          />
+            className={`flex flex-col items-center justify-center w-full h-12 text-gray-400 hover:text-white ${
+              activeTab === item.id ? "text-white" : ""
+            }`}
+            onClick={() => {
+              setActiveTab(item.id);
+              router.push(item.link);
+            }}
+          >
+            <item.icon className="w-6 h-6" />
+            <span className="text-xs">{item.label}</span>
+          </button>
         ))}
       </nav>
 
-      {/* Bottom User Button */}
       <div>
         <button className="w-12 h-12 rounded-xl bg-black text-gray-400 flex items-center justify-center hover:bg-gray-700 transition-colors">
           <User className="w-5 h-5" />
@@ -98,6 +104,7 @@ const Sidebar = ({ activeTab, setActiveTab }) => {
     </div>
   );
 };
+
 
 // Main Page
 const Page = () => {
