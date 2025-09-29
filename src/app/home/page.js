@@ -16,6 +16,7 @@ import { RiGeminiFill } from "react-icons/ri";
 import Chart from "react-apexcharts";
 import NavButton from "../components/NavButton";
 import AiPopup from "../components/AiPopup";
+import Sidebar from "../components/Sidebar";
 
 // Candlestick Chart Component
 
@@ -59,51 +60,7 @@ const CandleChart = ({ stockData }) => {
   );
 };
 
-import { useRouter } from "next/navigation";
 
-const Sidebar = ({ activeTab, setActiveTab }) => {
-  const router = useRouter();
-
-  const navItems = [
-    { id: "dashboard", icon: LayoutDashboard, label: "Dashboard", link: "/dashboard" },
-    { id: "users", icon: UserRoundCog, label: "User Management", link: "/users" },
-    { id: "transfers", icon: ArrowRightLeft, label: "Transfers", link: "/transfers" },
-    { id: "notifications", icon: Bell, label: "Notifications", link: "/notifications" },
-    { id: "logout", icon: LogOut, label: "Logout", link: "/" },
-  ];
-
-  return (
-    <div className="h-screen w-20 bg-gray-950 flex flex-col items-center py-6 border-r border-gray-800">
-      <div className="w-10 h-10 bg-green-400 rounded-lg flex items-center justify-center mb-8">
-        <BarChart3 className="w-6 h-6 text-white" />
-      </div>
-
-      <nav className="flex flex-col gap-3 flex-1">
-        {navItems.map((item) => (
-          <button
-            key={item.id}
-            className={`flex flex-col items-center justify-center w-full h-12 text-gray-400 hover:text-white ${
-              activeTab === item.id ? "text-white" : ""
-            }`}
-            onClick={() => {
-              setActiveTab(item.id);
-              router.push(item.link);
-            }}
-          >
-            <item.icon className="w-6 h-6" />
-            <span className="text-xs">{item.label}</span>
-          </button>
-        ))}
-      </nav>
-
-      <div>
-        <button className="w-12 h-12 rounded-xl bg-black text-gray-400 flex items-center justify-center hover:bg-gray-700 transition-colors">
-          <User className="w-5 h-5" />
-        </button>
-      </div>
-    </div>
-  );
-};
 
 
 // Main Page
@@ -125,12 +82,10 @@ const Page = () => {
   const priceChangePercent = ((priceChange / latest.Open) * 100).toFixed(2);
 
   return (
-    <div className="flex min-h-screen bg-black text-gray-200">
-      {/* Sidebar */}
-      <Sidebar activeTab={activeTab} setActiveTab={setActiveTab} />
+    <div className="flex min-h-screen bg-black text-gray-200 overflow-x-hidden">
+  <Sidebar activeTab={activeTab} setActiveTab={setActiveTab} />
 
-      {/* Main Content */}
-      <div className="flex-1 flex flex-col">
+  <div className="flex-1 ml-20 flex flex-col">
         {/* Header */}
         <div className="px-8 py-6 bg-gray-950 border-b border-gray-800 flex items-center justify-between">
           <div>

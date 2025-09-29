@@ -1,0 +1,206 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: linear-gradient(135deg, #0c0c0c 0%, #1a1a1a 100%);
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Arial', sans-serif;
+  overflow: hidden;
+}
+
+.loader-container {
+  text-align: center;
+  padding: 40px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 20px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(34, 197, 94, 0.2);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+}
+
+.chart-container {
+  width: 300px;
+  height: 150px;
+  position: relative;
+  margin: 0 auto 30px;
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 15px;
+  padding: 20px;
+  overflow: hidden;
+  border: 1px solid rgba(34, 197, 94, 0.3);
+}
+
+.chart-svg {
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 0 10px rgba(34, 197, 94, 0.5));
+}
+
+.chart-line {
+  fill: none;
+  stroke: url(#greenGradient);
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 400;
+  stroke-dashoffset: 400;
+  animation: drawLine 3s ease-in-out infinite;
+}
+
+.chart-area {
+  fill: url(#areaGradient);
+  opacity: 0;
+  animation: fillArea 3s ease-in-out infinite;
+}
+
+.chart-dots {
+  fill: #22c55e;
+  opacity: 0;
+  animation: showDots 3s ease-in-out infinite;
+}
+
+.glow-effect {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at center, rgba(34, 197, 94, 0.1) 0%, transparent 70%);
+  animation: pulse 2s ease-in-out infinite;
+  border-radius: 15px;
+}
+
+.loading-text {
+  color: #22c55e;
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 15px;
+  text-shadow: 0 0 20px rgba(34, 197, 94, 0.5);
+  animation: textGlow 2s ease-in-out infinite alternate;
+}
+
+.loading-subtext {
+  color: #888;
+  font-size: 14px;
+  font-weight: 400;
+  animation: fadeInOut 3s ease-in-out infinite;
+}
+
+.progress-bar {
+  width: 250px;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 2px;
+  margin: 20px auto;
+  overflow: hidden;
+  position: relative;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #22c55e, #16a34a);
+  border-radius: 2px;
+  width: 0%;
+  animation: fillProgress 3s ease-in-out infinite;
+  box-shadow: 0 0 10px rgba(34, 197, 94, 0.5);
+}
+
+.floating-numbers {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.number {
+  position: absolute;
+  color: #22c55e;
+  font-size: 12px;
+  font-weight: 600;
+  opacity: 0;
+  animation: floatUp 4s ease-in-out infinite;
+}
+
+.number:nth-child(1) { animation-delay: 0s; left: -40px; }
+.number:nth-child(2) { animation-delay: 0.5s; left: -20px; }
+.number:nth-child(3) { animation-delay: 1s; left: 0px; }
+.number:nth-child(4) { animation-delay: 1.5s; left: 20px; }
+.number:nth-child(5) { animation-delay: 2s; left: 40px; }
+
+@keyframes drawLine {
+  0% { stroke-dashoffset: 400; }
+  50% { stroke-dashoffset: 0; }
+  100% { stroke-dashoffset: -400; }
+}
+
+@keyframes fillArea {
+  0% { opacity: 0; }
+  30% { opacity: 0.3; }
+  70% { opacity: 0.3; }
+  100% { opacity: 0; }
+}
+
+@keyframes showDots {
+  0% { opacity: 0; }
+  40% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.3; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(1.05); }
+}
+
+@keyframes textGlow {
+  0% { text-shadow: 0 0 20px rgba(34, 197, 94, 0.5); }
+  100% { text-shadow: 0 0 30px rgba(34, 197, 94, 0.8), 0 0 40px rgba(34, 197, 94, 0.3); }
+}
+
+@keyframes fadeInOut {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+
+@keyframes fillProgress {
+  0% { width: 0%; }
+  100% { width: 100%; }
+}
+
+@keyframes floatUp {
+  0% { opacity: 0; transform: translateY(20px); }
+  20% { opacity: 1; }
+  80% { opacity: 1; }
+  100% { opacity: 0; transform: translateY(-20px); }
+}
+
+@keyframes backgroundShift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    45deg,
+    rgba(34, 197, 94, 0.05) 0%,
+    transparent 25%,
+    transparent 75%,
+    rgba(34, 197, 94, 0.05) 100%
+  );
+  background-size: 400% 400%;
+  animation: backgroundShift 8s ease infinite;
+  pointer-events: none;
+  z-index: -1;
+}
